@@ -15,14 +15,15 @@ work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
 
 ## Descrição do problema
 
-Pretende-se que os alunos desenvolvam um jogo/simulador no qual zombies
-perseguem e infetam humanos. O jogo desenrola-se numa grelha 2D limitada nos
-lados (não toroidal<sup>[1](#fn1)</sup>) com dimensões _X_ e _Y_ e vizinhança
-de Von Neumann<sup>[2](#fn2)</sup>. Em cada célula da grelha pode estar no
-máximo um agente, que pode ser um **zombie** ou um **humano**. No início da
-simulação existem _n<sub>z</sub>_ zombies e _n<sub>h</sub>_ humanos, num total
-de _n = n<sub>z</sub>_ + _n<sub>h</sub>_ agentes. Os agentes devem ser
-espalhados aleatoriamente pela grelha no início de cada jogo.
+Pretende-se que os alunos desenvolvam, em grupos de 1 a 3 elementos, um
+jogo/simulador em C# no qual zombies perseguem e infetam humanos. O jogo
+desenrola-se numa grelha 2D limitada nos lados (não
+toroidal<sup>[1](#fn1)</sup>) com dimensões _X_ e _Y_ e vizinhança de Von
+Neumann<sup>[2](#fn2)</sup>. Em cada célula da grelha pode estar no máximo um
+agente, que pode ser um **zombie** ou um **humano**. No início da simulação
+existem _n<sub>z</sub>_ zombies e _n<sub>h</sub>_ humanos, num total de _n =
+n<sub>z</sub>_ + _n<sub>h</sub>_ agentes. Os agentes devem ser espalhados
+aleatoriamente pela grelha no início de cada jogo.
 
 O jogo é _turn-based_, e em cada _turn_ (iteração) cada agente pode realizar
 uma ação. Os humanos podem apenas realizar um tipo de ação: movimento. Os
@@ -115,8 +116,8 @@ necessário usar o _namespace_ `System.Text`).
 No mínimo, a visualização deve distinguir claramente entre humanos e zombies,
 bem como entre agentes controlados pela IA (NPCs) e agentes controlados pelo
 jogador. Cada agente deve ainda ter um ID específico, em hexadecimal, de modo
-a que o jogador possa saber que controla, além de que pode faciliar imenso o
-_debug_ do jogo.
+a que o jogador possa saber que agente(s) controla, além de que pode faciliar
+bastante o _debug_ do jogo.
 
 A [Figura 1](#fig1) mostra uma possível implementação mínima da visualização do
 jogo para uma grelha 8x8.
@@ -166,81 +167,56 @@ definida][SRP].
 ### Fases da implementação
 
 O jogo deve ser implementado incrementalmente em várias fases. Os projetos
-precisam de implementar pelo menos a Fase 1 para serem avaliados. a
-[visualização](#visualize) é **obrigatória** em todas as fases de
-implementação.
-
-Para fins de avaliação, a fase tida em conta é a anterior à fase mais baixa que
-ficou por implementar. Por exemplo, se o grupo implementar tudo até à fase 3
-(inclusive), bem como as fases 5 e 6, a fase tida em conta para avaliação é a
-fase 3. Ou seja, é vantajoso seguir a ordem sugerida para as fases de
-implementação e não "saltar" fases.
+precisam de implementar pelo menos a Fase 1 para serem avaliados.
 
 #### Fase 1
 
-Na fase 1 devem ser implementados os seguintes pontos:
+Na fase 1 deve ser implementado tudo o que é pedido no enunciado, aceitando-se
+as seguintes simplificações:
 
-* _a fazer_
+* Os agentes controlados pela IA podem mover-se de forma aleatória, respeitando
+no entanto as regras do jogo, como por exemplo: a) só pode existir um agente
+por célula da grelha; ou, b) se um zombie tentar mover-se para o local onde
+está um humano, esse humano é infetado (mas ambos os agentes mantém-se no local
+onde estavam).
+* Implementação apenas da visualização mínima, como exemplificado na
+[Figura 1](#fig1).
 
 A implementação completa desta fase equivale a 50% de cumprimento do
-[objetivo **O1**](#objetivos) (nota máxima 5).
+[objetivo **O1**](#objetivos) (nota máxima 5). Atenção que a nota mínima do
+projeto é 4.5, pelo que os restantes [objetivos](#objetivos) têm de ser
+totalmente cumpridos para o grupo obter aprovação apenas com a fase 1.
 
 #### Fase 2
 
-Na fase 2 devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
+Na fase 2 deve ser implementada uma visualização que faça uso de cores e
+caracteres [Unicode][] para fácil distinção entre os diferentes agentes.
 
-* _a fazer_
+Aceita-se ainda a simplificação da IA descrita na fase 1.
 
 A implementação completa desta fase equivale a 60% de cumprimento do
 [objetivo **O1**](#objetivos) (nota máxima 6).
 
 #### Fase 3
 
-Na fase 3 devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
-
-* _a fazer_
-
-A implementação completa desta fase equivale a 70% de cumprimento do
-[objetivo **O1**](#objetivos) (nota máxima 7).
-
-#### Fase 4
-
-Na fase 4 devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
-
-* _a fazer_
-
-A implementação completa desta fase equivale a 80% de cumprimento do
-[objetivo **O1**](#objetivos) (nota máxima 8).
-
-#### Fase 5
-
-Na fase 5 devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
-
-* _a fazer_
-
-A implementação completa desta fase equivale a 90% de cumprimento do
-[objetivo **O1**](#objetivos) (nota máxima 9).
-
-#### Fase 6
-
-Na fase 6 devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
-
-* _a fazer_
+Na fase 3 não se aceitam simplificações, pelo que o projeto deverá ser
+desenvolvido tal como descrito no enunciado. Em concreto, a IA dos agentes deve
+ser totalmente implementada como solicitado.
 
 A implementação completa desta fase equivale a 100% de cumprimento do
 [objetivo **O1**](#objetivos) (nota máxima 10).
 
 #### Fase extra
 
-Na fase extra devem ser implementados os seguintes pontos (além dos pontos
-indicados nas fases anteriores):
+Na fase extra, além de tudo o que é pedido para a fase 3, deve também ser
+desenvolvido um sistema de _save games_. Deve ser possível guardar a situação
+do jogo no fim de cada _turn_. O _load_ de um _save game_ deve ser feito na
+invocação do programa, através de uma opção adicional na linha de comandos:
 
-* _a fazer_
+* `-s` - Indica ficheiro de _save game_ a fazer _load_, por exemplo:
+`Program.exe -s mysave.sav`
+
+Esta opção sobrepõem-se a todas as outras.
 
 A implementação completa desta fase permite compensar eventuais problemas
 noutras partes do código e/ou do projeto, facilitando a obtenção da nota
@@ -280,7 +256,7 @@ Este projeto tem os seguintes objetivos:
   * Informação de quem fez o quê no projeto. Esta informação é **obrigatória**
     e deve refletir os _commits_ feitos no Git.
   * Descrição da solução:
-    * Fase implementada (1 a 6, ou extra).
+    * Fase implementada (1 a 3, ou extra).
     * Arquitetura da solução, com breve explicação de como o programa foi
       organizado e indicação das estruturas de dados usadas (para a grelha de
       jogo, por exemplo), bem como os algoritmos implementados (para procura de
