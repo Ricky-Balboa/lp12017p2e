@@ -78,6 +78,11 @@ Um exemplo de execução:
 Program.exe -x 20 -y 20 -z 10 -h 30 -Z 1 -H 2 -t 1000
 ```
 
+As opções de linha de comandos podem também ser definidas diretamente no Visual
+Studio 2017 da seguinte forma: 1) clicar com o botão direito em cima do nome do
+projeto; 2) selecionar "Properties"; 3) selecionar separador "Debug"; e, 4) na
+caixa "Command line arguments" especificar os argumentos desejados.
+
 As opções indicadas são obrigatórias e podem ser dadas em qualquer ordem, desde
 que o valor numérico suceda à opção propriamente dita. Se alguma das opções for
 omitida o programa deve terminar com uma mensagem de erro indicando o modo de
@@ -125,23 +130,29 @@ jogo para uma grelha 8x8.
 <a name="fig1"></a>
 
 ```
-.   .   .   .   .   .   .   .  
+.   .   .   .   .   .   .   .         N
+                                      |
+.   .   .   .  z01 h03  .   .      O--+--L
+                                      |
+.   .   .   .  H00  .   .   .         S
 
-.   .   .   .  z01 h03  .   .  
+.   .   .   .  h02  .   .   .
 
-.   .   .   .   .   .   .   .  
+.   .   .   .   .   .   .   .
 
-.   .   .   .  h02  .   .   .  
+.  z00  .   .   .   .   .   .
 
-.   .  H00  .   .   .   .   .  
+.   .   .   .   .   .  h01  .
 
-.   .   .   .   .   .   .   .  
+.   .   .   .   .   .   .   .
 
-.   .   .   .   .   .   .   .  
 
-.   .   .   .   .   .   .   .  
-
->
+* Proximo a jogar: H00
+  - A Norte existe o zombie 01 (IA).
+  - A Sul existe o humano 02 (IA).
+  - A Oeste o caminho está livre.
+  - A Leste o caminho está livre.
+* Qual o caminho a seguir? A (oeste) ou D (leste) >
 ```
 
 **Figura 1** - Possível implementação mínima da visualização do jogo para uma
@@ -155,12 +166,12 @@ jogador.
 
 ### Organização do projeto e estrutura de classes
 
-O projeto deve estar devidamente organizado, fazendo uso de classes e
-enumerações. Cada classe/enumeração deve ser colocada num ficheiro com o mesmo
-nome. Por exemplo, uma classe chamada `Agent` deve ser colocada no ficheiro
-`Agent.cs`. A estrutura de classes deve ser bem pensada e organizada de uma
-forma lógica, e [cada classe deve ter uma responsabilidade específica e bem
-definida][SRP].
+O projeto deve estar devidamente organizado, fazendo uso de classes, _structs_
+e enumerações. Cada classe, _struct_ ou enumeração deve ser colocada num
+ficheiro com o mesmo nome. Por exemplo, uma classe chamada `Agent` deve ser
+colocada no ficheiro `Agent.cs`. A estrutura de classes deve ser bem pensada e
+organizada de uma forma lógica, e [cada classe deve ter uma responsabilidade
+específica e bem definida][SRP].
 
 <a name="fases"></a>
 
@@ -286,6 +297,9 @@ realizado uma percentagem equitativa do projeto e se souber explicar o que fez
 durante a discussão, então a nota individual deverá ser muito semelhante à
 avaliação do projeto.
 
+A nota mínima neste projeto para aprovação na componente prática de LP1 é de
+4.5 valores.
+
 ## Entrega
 
 O projeto deve ser entregue via Moodle até às 23h de 1 de julho de 2018.
@@ -305,9 +319,9 @@ Notas adicionais para entrega:
 * O projeto deve ser do tipo Console App (.NET Framework ou .NET Core).
 * Todos os ficheiros do projeto devem ser gravados em codificação [UTF-8][].
   Este pormenor é especialmente importante em Windows pois regra geral a
-  codificação [UTF-8] não é usada por omissão. Em todo o caso, e dependendo do
-  editor usado, a codificação [UTF-8] pode ser selecionada na janela de "Save
-  as" / "Guardar como", ou então nas preferências do editor utilizado.
+  codificação [UTF-8][] não é usada por omissão. Em todo o caso, e dependendo
+  do editor usado, a codificação [UTF-8][] pode ser selecionada na janela de
+  "Save as" / "Guardar como", ou então nas preferências do editor utilizado.
 
 ## Honestidade académica
 
