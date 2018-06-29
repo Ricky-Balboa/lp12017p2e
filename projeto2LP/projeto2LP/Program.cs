@@ -79,6 +79,15 @@ namespace projetoLP1_2
                     turnos = Convert.ToInt16(args[i + 1]);
                 }
             }
+
+            for (int i = 0; i < linhas; i++)
+            {
+                for (int j = 0; j < colunas; j++)
+                {
+                    Console.Write("  *  ");
+                }
+                Console.WriteLine();
+            }
             Console.WriteLine(colunas);
             Console.WriteLine(linhas);
             Console.WriteLine(nHumanos);
