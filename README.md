@@ -1,4 +1,4 @@
-# The Walking Circle
+# Zombies vs Humans
 
 * André Rosa - a21704022
 * Ricardo Leal - a21703090
