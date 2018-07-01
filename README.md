@@ -8,7 +8,9 @@
 
 ### Architecture
 
-Para evitar ter o metodo main muito cheio, dividi-mos o código em algumas classes sendo que cada uma contêm vários parâmetros, funções e metodos. 
+Tentá-mos dividir o projeto em vários ficheiros, para evitar o excesso de código no metodo main. O código estava todo funcionaval e com as tentativas de
+dividir o código em vários ficheiros o código parou de funcionar. Como tal, o main está sobrecarregado com excesso de linhas de código. No entanto funciona tudo
+na perfeição.
 
 O ficheiro principal é o "Program.cs". 
 
