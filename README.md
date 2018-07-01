@@ -14,14 +14,13 @@ na perfeição.
 
 O ficheiro principal é o "Program.cs". 
 
-![Fluxogram]()
+![Fluxogram](https://cdn.discordapp.com/attachments/369518977745158145/463100254473027595/Fluxograma.png)
 
 ### Data structures
 
-Utilizá-mos **arrays** e **enumerações** em grande parte da estrutura do nosso trabalho, constituem portanto uma parte muito 
+Utilizá-mos **arrays**  em grande parte da estrutura do nosso trabalho, constituem portanto uma parte muito 
 importante neste projeto.
 
-Criá-mos ainda uma struct ``AGENT`` que contém a informação se o agente é jogável, a sua ID e o seu tipo.
 
 ### Algorithms
 
@@ -55,3 +54,8 @@ Ao desenvolver este trabalho conseguimos aprofundar, aplicar e perceber melhor o
 O conceito "HumanosVSZombies" é em si muito interessante e agradou-nos bastante. A parte em tivemos mais dificuldades foi em converter ideias e pseudo-código em
 código propriamente dito e funcional. Desenvolve-mos todo o código inicialmente dentro do método main, estando completamente funcional. Tive-mos bastantes 
 dificuldades ao dividir o código por vários ficheiros ficheiros, para não sobrecarregar o main. E apesar das nossas tentativas nenhuma delas funcionou.
+
+### Notes
+
+Ao desenvolver este trabalho tivemos sempre lado a lado a trabalhar em conjunto cada linha de código, não sendo possivel dizer o que cada um fez individualmente.
+Ao longo do desenvolvimento do projeto tivemos sempre a alterar/trocar pensamentos 
