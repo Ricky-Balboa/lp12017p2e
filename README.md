@@ -8,7 +8,9 @@
 
 ### Architecture
 
-Para evitar ter o metodo main muito cheio, dividi-mos o código em algumas classes sendo que cada uma contêm vários parâmetros, funções e metodos. 
+Tentá-mos dividir o projeto em vários ficheiros, para evitar o excesso de código no método main. O código estava todo funcional e com as tentativas de
+dividir o código em vários ficheiros o código parou de funcionar. Como tal, o main está sobrecarregado com excesso de linhas de código. No entanto funciona tudo
+na perfeição.
 
 O ficheiro principal é o "Program.cs". 
 
@@ -51,4 +53,5 @@ Ou seja, a posição dos agentes nunca pode ser **superior** ao valor de WORLD_Y
 
 Ao desenvolver este trabalho conseguimos aprofundar, aplicar e perceber melhor os conhecimentos adquiridos em aula. 
 O conceito "HumanosVSZombies" é em si muito interessante e agradou-nos bastante. A parte em tivemos mais dificuldades foi em converter ideias e pseudo-código em
-código propriamente dito e funcional
+código propriamente dito e funcional. Desenvolve-mos todo o código inicialmente dentro do método main, estando completamente funcional. Tive-mos bastantes 
+dificuldades ao dividir o código por vários ficheiros ficheiros, para não sobrecarregar o main. E apesar das nossas tentativas nenhuma delas funcionou.
