@@ -15,11 +15,10 @@ namespace projeto2LP
         public static void Main(string[] args)
         {
 
-
+            /// <summary>
+            /// 
+            /// </summary>
             short t = 1;
-
-
-
             /// <summary>
             /// cria variavel colunas
             /// </summary>
@@ -50,8 +49,10 @@ namespace projeto2LP
             short turnos = 0;
 
             /// <summary>
-            /// Este for compara os argumentos da linha de comandos e guarda-os nas respetivas variaveis
-            /// iniciando assim o jogo com as opçoes selecionadas pelo utilizador.
+            /// Este for compara os argumentos da linha de comandos e guarda-os 
+            /// nas respetivas variaveis
+            /// iniciando assim o jogo com as opçoes selecionadas pelo 
+            /// utilizador.
             /// </summary>
 
             for (int i = 0; i < args.Length; i++)
@@ -87,25 +88,33 @@ namespace projeto2LP
 
             }
 
-<<<<<<< HEAD
-            ///////////////////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////////////////////
+
             string[,] agentes = new string[colunas, linhas];
-            string tecla = "w";
+            string tecla = "";
             short humanos = nHumanos;
             short zombies = nZombies;
             short humanosjog = PlayHumanos;
             short zombiesjog = PlayZombies;
             int totalagentes = ((int)nHumanos + (int)nZombies);
             int total = (agentes.Length - totalagentes);
+            int totaltemp = 0;
             int totalJog = (PlayHumanos + PlayZombies);
             int totalJogtemp = 0;
-            int[][] savedpos = new int[totalJog][];
+            int[][] savedposJog = new int[totalJog][];
+            int[][] savedpos = new int[nHumanos + nZombies][];
+            int p = 0;
+            int pAI = 0;
             Random rand = new Random();
             int tipo = 1;
             bool Gravou = false;
             bool[] jogaveis = new bool[totalJog];
+            bool[] jogoAI = new bool[nHumanos + nZombies];
 
-=======
+
+
+
             for (int i = 0; i < linhas; i++)
             {
                 for (int j = 0; j < colunas; j++)
@@ -114,7 +123,7 @@ namespace projeto2LP
                 }
                 Console.WriteLine();
             }
->>>>>>> 2c0661ede2af5e8c8ba102aab6876e1f1d0126e4
+
             Console.WriteLine(colunas);
             Console.WriteLine(linhas);
             Console.WriteLine(nHumanos);
@@ -204,33 +213,47 @@ namespace projeto2LP
 
                 }
             }
-
-            for (int p = 0; p < totalJog; p++)
+            for (int i = 0; i < (nHumanos + nZombies); i++)
             {
-                savedpos[p] = new int[2];
+                savedpos[i] = new int[2];
+            }
+
+            for (int i = 0; i < totalJog; i++)
+            {
+                savedposJog[i] = new int[2];
 
             }
+
             totalJogtemp = 0;
+            totaltemp = 0;
             while (t <= turnos)
             {
+                p = 0;
+                pAI = 0;
                 totalJogtemp = 0;
+
+                totaltemp = 0;
                 for (int i = 0; i < linhas; i++)
                 {
                     for (int j = 0; j < colunas; j++)
                     {
-                        if (agentes[j, i] == "  H  " || agentes[j, i] == "  Z  ")
-
+                        if (agentes[j, i] == "  H  " || agentes[j, i] ==
+                            "  Z  ")
                         {
-
-                            savedpos[totalJogtemp][0] = -1;
-                            savedpos[totalJogtemp][1] = -1;
+                            savedposJog[totalJogtemp][0] = -1;
+                            savedposJog[totalJogtemp][1] = -1;
                             totalJogtemp++;
-
+                        }
+                        if (agentes[j, i] == "  h  " ||
+                            agentes[j, i] == "  z  ")
+                        {
+                            savedpos[totaltemp][0] = -1;
+                            savedpos[totaltemp][1] = -1;
+                            totaltemp++;
                         }
                     }
-
                 }
-
+                totaltemp = 0;
                 totalJogtemp = 0;
 
                 Console.WriteLine();
@@ -239,291 +262,560 @@ namespace projeto2LP
                 {
                     for (int j = 0; j < colunas; j++)
                     {
-                        if (agentes[j, i] == "  H  " || agentes[j, i] == "  Z  ")
+                        if (agentes[j, i] == "  H  " ||
+                            agentes[j, i] == "  Z  ")
 
                         {
-
-                            savedpos[totalJogtemp][0] = i;
-                            savedpos[totalJogtemp][1] = j;
+                            savedposJog[totalJogtemp][0] = i;
+                            savedposJog[totalJogtemp][1] = j;
                             jogaveis[totalJogtemp] = false;
                             totalJogtemp++;
 
+                        }
+                        if (agentes[j, i] == "  h  " ||
+                            agentes[j, i] == "  z  ")
+                        {
+                            savedpos[totaltemp][0] = i;
+                            savedpos[totaltemp][1] = j;
+                            jogoAI[totaltemp] = false;
+                            totaltemp++;
                         }
 
                         Console.Write(agentes[j, i]);
                     }
                     Console.WriteLine();
                 }
-                for (int p = 0; p < totalJog; p++)
+                for (int i = 0; i < linhas; i++)
                 {
-                    if (savedpos[p][0] >= 0 && savedpos[p][1] >= 0 && jogaveis[p] == false)
+                    for (int j = 0; j < colunas; j++)
                     {
-
-                        Console.WriteLine("linha: " + savedpos[p][0]);
-                        Console.WriteLine("coluna: " + savedpos[p][1]);
-                        tecla = "";
-                        while (tecla != "W" && tecla != "w" && tecla != "A" && tecla != "a" && tecla != "S" && tecla != "s" && tecla != "D" && tecla != "d")
+                        if (agentes[j, i] == "  H  " ||
+                            agentes[j, i] == "  Z  ")
                         {
-
-
-                            Console.WriteLine("Insira para onde se quer mover: ");
-                            Console.WriteLine();
-                            tecla = Console.ReadLine();
-                            switch (tecla)
+                            if (savedposJog[p][0] >= 0 && savedposJog[p][1] >=
+                                0 && jogaveis[p] == false)
                             {
-                                case "w":
-                                case "W":
-                                    if (savedpos[p][0] - 1 >= 0)
-                                    {
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  H  " && agentes[savedpos[p][1], savedpos[p][0] - 1] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] - 1] = "  H  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] - 1] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] - 1] = "  Z  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] - 1] == "  h  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] - 1] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] - 1] == "  H  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] - 1] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            totalJog--;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
 
-                                        }
-
-                                    }
-
-                                    break;
-
-                                case "a":
-                                case "A":
-                                    if (savedpos[p][1] - 1 >= 0)
-                                    {
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  H  " && agentes[savedpos[p][1] - 1, savedpos[p][0]] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1] - 1, savedpos[p][0]] = "  H  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-
-
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] - 1, savedpos[p][0]] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1] - 1, savedpos[p][0]] = "  Z  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] - 1, savedpos[p][0]] == "  h  ")
-                                        {
-                                            agentes[savedpos[p][1] - 1, savedpos[p][0]] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] - 1, savedpos[p][0]] == "  H  ")
-                                        {
-                                            agentes[savedpos[p][1] - 1, savedpos[p][0]] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            totalJog--;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                    }
-
-                                    break;
-                                case "D":
-                                case "d":
-                                    if (savedpos[p][1] + 1 < colunas)
-                                    {
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  H  " && agentes[savedpos[p][1] + 1, savedpos[p][0]] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1] + 1, savedpos[p][0]] = "  H  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-
-
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] + 1, savedpos[p][0]] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1] + 1, savedpos[p][0]] = "  Z  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] + 1, savedpos[p][0]] == "  h  ")
-                                        {
-                                            agentes[savedpos[p][1] + 1, savedpos[p][0]] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            totalJogtemp--;
-
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1] + 1, savedpos[p][0]] == "  H  ")
-                                        {
-                                            agentes[savedpos[p][1] + 1, savedpos[p][0]] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            totalJog--;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                    }
-
-                                    break;
-                                case "S":
-                                case "s":
-                                    if (savedpos[p][0] + 1 <= linhas)
-                                    {
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  H  " && agentes[savedpos[p][1], savedpos[p][0] + 1] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] + 1] = "  H  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-
-
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] + 1] == "  .  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] + 1] = "  Z  ";
-                                            agentes[savedpos[p][1], savedpos[p][0]] = "  .  ";
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] + 1] == "  h  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] + 1] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                        if (agentes[savedpos[p][1], savedpos[p][0]] == "  Z  " && agentes[savedpos[p][1], savedpos[p][0] + 1] == "  H  ")
-                                        {
-                                            agentes[savedpos[p][1], savedpos[p][0] + 1] = "  z  ";
-                                            nHumanos--;
-                                            nZombies++;
-                                            totalJog--;
-                                            jogaveis[p] = true;
-                                            totalJogtemp--;
-                                        }
-                                    }
-
-                                    break;
-                                default:
-                                    Console.WriteLine("Tecla invalida Selecione W,A,S ou D");
-                                    break;
-
-                            }
-                        }
-
-                        for (int i = 0; i < linhas; i++)
-                        {
-
-                            for (int j = 0; j < colunas; j++)
-                            {
-                                if (tecla == "W" || tecla == "w" || tecla == "A" || tecla == "a" || tecla == "S" || tecla == "s" || tecla == "D" || tecla == "d")
+                                Console.WriteLine("linha: " + savedposJog[p][0]);
+                                Console.WriteLine("coluna: " + savedposJog[p][1]);
+                                tecla = "";
+                                while (tecla != "W" && tecla != "w" && tecla !=
+                                    "A" && tecla != "a" && tecla != "S" &&
+                                    tecla != "s" && tecla != "D" && tecla != "d")
                                 {
+
+
+                                    Console.WriteLine("Insira para onde se quer mover: ");
+                                    Console.WriteLine();
+                                    tecla = Console.ReadLine();
                                     switch (tecla)
                                     {
-                                        case "W":
                                         case "w":
-                                            if (i - 1 >= 0)
+                                        case "W":
+                                            if (savedposJog[p][0] - 1 >= 0)
                                             {
-                                                if (savedpos[p][0] > 0)
+                                                if (agentes[savedposJog[p][1],
+                                                    savedposJog[p][0]] == "  H  " && agentes[savedposJog[p][1], savedposJog[p][0] - 1] == "  .  ")
                                                 {
-                                                    savedpos[p][0] = i - 1;
-                                                    savedpos[p][1] = j;
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] - 1] = "  H  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] - 1] == "  .  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] - 1] = "  Z  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] - 1] == "  h  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] - 1] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] - 1] == "  H  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] - 1] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    totalJog--;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+
                                                 }
 
-
                                             }
-                                            break;
-                                        case "S":
-                                        case "s":
-                                            if (i + 1 < linhas)
-                                            {
-                                                if (savedpos[p][0] < linhas - 1)
-                                                {
-                                                    savedpos[p][0] = i + 1;
-                                                    savedpos[p][1] = j;
-                                                }
 
-
-                                            }
                                             break;
-                                        case "A":
+
                                         case "a":
-                                            if (j - 1 >= 0)
+                                        case "A":
+                                            if (savedposJog[p][1] - 1 >= 0)
                                             {
-                                                if (savedpos[p][1] > 0)
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  H  " && agentes[savedposJog[p][1] - 1, savedposJog[p][0]] == "  .  ")
                                                 {
-                                                    savedpos[p][0] = i;
-                                                    savedpos[p][1] = j - 1;
+                                                    agentes[savedposJog[p][1] - 1, savedposJog[p][0]] = "  H  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+
+
                                                 }
-
-
-
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] - 1, savedposJog[p][0]] == "  .  ")
+                                                {
+                                                    agentes[savedposJog[p][1] - 1, savedposJog[p][0]] = "  Z  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] - 1, savedposJog[p][0]] == "  h  ")
+                                                {
+                                                    agentes[savedposJog[p][1] - 1, savedposJog[p][0]] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] - 1, savedposJog[p][0]] == "  H  ")
+                                                {
+                                                    agentes[savedposJog[p][1] - 1, savedposJog[p][0]] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    totalJog--;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
                                             }
+
                                             break;
                                         case "D":
                                         case "d":
-                                            if (j + 1 < colunas)
+                                            if (savedposJog[p][1] + 1 <= colunas)
                                             {
-                                                if (savedpos[p][1] > colunas - 1)
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  H  " && agentes[savedposJog[p][1] + 1, savedposJog[p][0]] == "  .  ")
                                                 {
-                                                    savedpos[p][0] = i;
-                                                    savedpos[p][1] = j + 1;
+                                                    agentes[savedposJog[p][1] + 1, savedposJog[p][0]] = "  H  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+
+
                                                 }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] + 1, savedposJog[p][0]] == "  .  ")
+                                                {
+                                                    agentes[savedposJog[p][1] + 1, savedposJog[p][0]] = "  Z  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] + 1, savedposJog[p][0]] == "  h  ")
+                                                {
+                                                    agentes[savedposJog[p][1] + 1, savedposJog[p][0]] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    totalJogtemp--;
+                                                    jogaveis[p] = true;
+
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1] + 1, savedposJog[p][0]] == "  H  ")
+                                                {
+                                                    agentes[savedposJog[p][1] + 1, savedposJog[p][0]] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    totalJog--;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                            }
+
+                                            break;
+                                        case "S":
+                                        case "s":
+                                            if (savedposJog[p][0] + 1 <= linhas)
+                                            {
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  H  " && agentes[savedposJog[p][1], savedposJog[p][0] + 1] == "  .  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] + 1] = "  H  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+
+
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] + 1] == "  .  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] + 1] = "  Z  ";
+                                                    agentes[savedposJog[p][1], savedposJog[p][0]] = "  .  ";
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] + 1] == "  h  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] + 1] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                                if (agentes[savedposJog[p][1], savedposJog[p][0]] == "  Z  " && agentes[savedposJog[p][1], savedposJog[p][0] + 1] == "  H  ")
+                                                {
+                                                    agentes[savedposJog[p][1], savedposJog[p][0] + 1] = "  z  ";
+                                                    nHumanos--;
+                                                    nZombies++;
+                                                    totalJog--;
+                                                    jogaveis[p] = true;
+                                                    totalJogtemp--;
+                                                }
+                                            }
+
+                                            break;
+                                        default:
+                                            Console.WriteLine("Tecla invalida Selecione W,A,S ou D");
+                                            break;
+
+                                    }
+                                }
+
+                                for (int ii = 0; ii < linhas; ii++)
+                                {
+
+                                    for (int jj = 0; jj < colunas; jj++)
+                                    {
+                                        if (tecla == "W" || tecla == "w" || tecla == "A" || tecla == "a" || tecla == "S" || tecla == "s" || tecla == "D" || tecla == "d")
+                                        {
+                                            switch (tecla)
+                                            {
+                                                case "W":
+                                                case "w":
+                                                    if (ii - 1 >= 0)
+                                                    {
+                                                        if (savedposJog[p][0] > 0)
+                                                        {
+                                                            savedposJog[p][0] = ii - 1;
+                                                            savedposJog[p][1] = jj;
+                                                        }
+
+
+                                                    }
+                                                    break;
+                                                case "S":
+                                                case "s":
+                                                    if (ii + 1 < linhas)
+                                                    {
+                                                        if (savedposJog[p][0] < linhas - 1)
+                                                        {
+                                                            savedposJog[p][0] = ii + 1;
+                                                            savedposJog[p][1] = jj;
+                                                        }
+
+
+                                                    }
+                                                    break;
+                                                case "A":
+                                                case "a":
+                                                    if (jj - 1 >= 0)
+                                                    {
+                                                        if (savedposJog[p][1] > 0)
+                                                        {
+                                                            savedposJog[p][0] = ii;
+                                                            savedposJog[p][1] = jj - 1;
+                                                        }
+
+
+
+                                                    }
+                                                    break;
+                                                case "D":
+                                                case "d":
+                                                    if (jj + 1 < colunas)
+                                                    {
+                                                        if (savedposJog[p][1] > colunas - 1)
+                                                        {
+                                                            savedposJog[p][0] = ii;
+                                                            savedposJog[p][1] = jj + 1;
+                                                        }
+
+
+                                                    }
+                                                    break;
 
 
                                             }
-                                            break;
 
+
+                                        }
+
+                                        Console.Write(agentes[jj, ii]);
 
                                     }
-
-
+                                    Console.WriteLine();
                                 }
-
-                                Console.Write(agentes[j, i]);
-
                             }
-                            Console.WriteLine();
+                            if (p <= PlayHumanos + PlayZombies)
+                            {
+                                p++;
+                            }
+
                         }
+                        if (agentes[j, i] == "  h  " || agentes[j, i] == "  z  ")
+                        {
+                            if (savedpos[pAI][0] >= 0 && savedpos[pAI][1] >= 0 && jogoAI[pAI] == false)
+                            {
+                                tipo = rand.Next(1, 5);
+                                switch (tipo)
+                                {
+                                    case 1:
+                                        if (savedpos[pAI][0] - 1 >= 0)
+                                        {
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  h  " && agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] = "  h  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] = "  z  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] == "  h  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] == "  H  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] - 1] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                totalJog--;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+
+                                            }
+
+                                        }
+
+                                        break;
+
+                                    case 2:
+                                        if (savedpos[pAI][1] - 1 >= 0)
+                                        {
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  h  " && agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] = "  h  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+
+
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] = "  z  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] == "  h  ")
+                                            {
+                                                agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] == "  H  ")
+                                            {
+                                                agentes[savedpos[pAI][1] - 1, savedpos[pAI][0]] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                totalJog--;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                        }
+
+                                        break;
+                                    case 3:
+                                        if (savedpos[pAI][1] + 1 < colunas)
+                                        {
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] = "  z  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+
+
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] = "  z  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] == "  h  ")
+                                            {
+                                                agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                totaltemp--;
+
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] == "  H  ")
+                                            {
+                                                agentes[savedpos[pAI][1] + 1, savedpos[pAI][0]] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                totalJog--;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                        }
+
+                                        break;
+                                    case 4:
+                                        if (savedpos[pAI][0] + 1 <= linhas)
+                                        {
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  h  " && agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] = "  h  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+
+
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] == "  .  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] = "  z  ";
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0]] = "  .  ";
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] == "  h  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                            if (agentes[savedpos[pAI][1], savedpos[pAI][0]] == "  z  " && agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] == "  H  ")
+                                            {
+                                                agentes[savedpos[pAI][1], savedpos[pAI][0] + 1] = "  z  ";
+                                                nHumanos--;
+                                                nZombies++;
+                                                totalJog--;
+                                                jogoAI[pAI] = true;
+                                                totaltemp--;
+                                            }
+                                        }
+
+                                        break;
+                                }
+                                for (int ii = 0; ii < linhas; ii++)
+                                {
+
+                                    for (int jj = 0; jj < colunas; jj++)
+                                    {
+                                        switch (tipo)
+                                        {
+                                            case 1:
+                                                if (ii - 1 >= 0)
+                                                {
+                                                    if (savedpos[pAI][0] > 0)
+                                                    {
+                                                        savedpos[pAI][0] = ii - 1;
+                                                        savedpos[pAI][1] = jj;
+                                                    }
+
+
+                                                }
+                                                break;
+                                            case 2:
+                                                if (ii + 1 < linhas)
+                                                {
+                                                    if (savedpos[pAI][0] < linhas - 1)
+                                                    {
+                                                        savedpos[pAI][0] = ii + 1;
+                                                        savedpos[pAI][1] = jj;
+                                                    }
+
+
+                                                }
+                                                break;
+                                            case 3:
+                                                if (jj - 1 >= 0)
+                                                {
+                                                    if (savedpos[pAI][1] > 0)
+                                                    {
+                                                        savedpos[pAI][0] = ii;
+                                                        savedpos[pAI][1] = jj - 1;
+                                                    }
+
+
+
+                                                }
+                                                break;
+                                            case 4:
+                                                if (jj + 1 < colunas)
+                                                {
+                                                    if (savedpos[pAI][1] > colunas - 1)
+                                                    {
+                                                        savedpos[pAI][0] = ii;
+                                                        savedpos[pAI][1] = jj + 1;
+                                                    }
+
+
+                                                }
+                                                break;
+                                        }
+
+                                        Console.Write(agentes[jj, ii]);
+
+                                    }
+                                    Console.WriteLine();
+                                }
+                            }
+                            if (pAI < nHumanos + nZombies - PlayHumanos - PlayZombies)
+                            {
+                                pAI++;
+                            }
+                        }
+                        Console.WriteLine();
+                        Console.WriteLine();
                     }
+                }
+                if (nHumanos == 0)
+                {
+                    t = turnos;
                 }
 
                 Console.WriteLine();
                 t++;
 
-
-
-
-
                 Console.ReadKey();
+            }
+            if (nHumanos > 0)
+            {
+                Console.WriteLine("OS HUMANOS GANHARAM!");
+            }
+            else
+            {
+                Console.WriteLine("OS ZOMBIES GANHARAM!");
             }
 
             Console.WriteLine(colunas);
@@ -534,7 +826,6 @@ namespace projeto2LP
             Console.WriteLine(PlayZombies);
             Console.WriteLine(turnos);
             Console.WriteLine(agentes.Length);
-            Console.WriteLine(agentes[0, 0]);
         }
     }
 }
